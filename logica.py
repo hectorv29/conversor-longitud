@@ -73,6 +73,13 @@ def validar_para_conversion(texto: str):
         return False, "Introduce un número válido.", None
 
 
+def intercambiar_unidades(unidad_origen: str, unidad_destino: str) -> tuple[str, str]:
+    """
+    Intercambia la unidad de origen y de destino.
+    """
+    return unidad_destino, unidad_origen
+
+
 def convertir_longitud(valor_decimal: Decimal, unidad_origen: str, unidad_destino: str):
     """
     Realiza la conversión entre las unidades especificadas ('mm', 'cm', 'm')

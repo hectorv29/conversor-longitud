@@ -29,6 +29,7 @@ Desarrollar una aplicación funcional de escritorio en Python para convertir uni
 - **Botones de acción:**
   - Botón principal «Convertir», visualmente destacado `[Usuario]`.
   - Botón secundario «Limpiar», fácilmente identificable `[Usuario]`.
+  - Botón «Intercambiar unidades», situado junto a los selectores de unidades `[Usuario]`.
 - **Zona de resultado:**
   - Área visualmente diferenciada del resto de campos `[Usuario]`.
   - Muestra valor original, unidad de origen, resultado y unidad de destino (ejemplo: `2,5 m = 250 cm`) `[Usuario]`.
@@ -67,6 +68,12 @@ Desarrollar una aplicación funcional de escritorio en Python para convertir uni
 - **R9 - Validación previa al cálculo:** Al pulsar «Convertir»:
   - Si el campo está vacío: mostrar mensaje integrado «Introduce un valor para realizar la conversión» `[Usuario]`.
   - Si el valor no es interpretable (ej. solo `-`, solo `.` o `,`): mostrar mensaje de error comprensible `[Usuario]`.
+- **R10 - Botón Intercambiar unidades:** El sistema debe incorporar un botón «Intercambiar unidades». Al pulsarlo:
+  - Intercambia las unidades de Origen y Destino `[Usuario]`.
+  - Conserva exactamente el texto escrito en Valor `[Usuario]`.
+  - Borra el resultado anterior, volviendo a `—` `[Usuario]`.
+  - No convierte automáticamente `[Usuario]`.
+  - El botón «Convertir» sigue funcionando con normalidad tras el intercambio `[Usuario]`.
 
 ---
 
@@ -88,6 +95,11 @@ Desarrollar una aplicación funcional de escritorio en Python para convertir uni
 - **A8:** Modificar el número o cambiar las unidades después de una conversión no altera el resultado previo hasta pulsar «Convertir» nuevamente.
 - **A9:** Al pulsar «Limpiar», se borra la entrada, el resultado, los errores y las unidades vuelven a `Metros (m)` y `Centímetros (cm)`.
 - **A10:** La aplicación se ejecuta en Python utilizando `customtkinter` y sin errores de consola.
+- **A11:** Al pulsar «Intercambiar unidades», la combinación `mm → m` pasa a `m → mm`.
+- **A12:** Al pulsar «Intercambiar unidades», el campo Valor conserva exactamente el texto que tenía.
+- **A13:** Al pulsar «Intercambiar unidades», el resultado vuelve a `—`.
+- **A14:** Al pulsar «Intercambiar unidades» dos veces consecutivas, se restauran las unidades a su estado anterior.
+- **A15:** Todas las pruebas previas continúan pasando sin alteraciones.
 
 ---
 

@@ -10,7 +10,8 @@ from logica import (
     ETIQUETAS_UNIDADES,
     es_entrada_valida,
     validar_para_conversion,
-    convertir_longitud
+    convertir_longitud,
+    intercambiar_unidades
 )
 
 
@@ -41,6 +42,8 @@ class ConversorApp(ctk.CTk):
         self.bind("<Return>", lambda event: self.accion_convertir())
         self.bind("<KP_Enter>", lambda event: self.accion_convertir())
         self.bind("<Escape>", lambda event: self.accion_limpiar())
+        self.bind("<Control-i>", lambda event: self.accion_intercambiar())
+        self.bind("<Control-I>", lambda event: self.accion_intercambiar())
 
     def centrar_ventana(self, ancho: int, alto: int):
         try:
@@ -189,6 +192,20 @@ class ConversorApp(ctk.CTk):
         )
         self.menu_destino.pack(fill="x")
 
+        # Botón Intercambiar unidades
+        self.btn_intercambiar = ctk.CTkButton(
+            frame_selectores,
+            text="⇄ Intercambiar unidades",
+            font=("Segoe UI", 12, "bold"),
+            height=34,
+            corner_radius=8,
+            fg_color=("gray85", "#334155"),
+            hover_color=("gray75", "#475569"),
+            text_color=("gray10", "white"),
+            command=self.accion_intercambiar
+        )
+        self.btn_intercambiar.grid(row=1, column=0, columnspan=2, pady=(10, 0), sticky="ew")
+
         # SECCIÓN: Botones Convertir y Limpiar
         frame_botones = ctk.CTkFrame(tarjeta_interna, fg_color="transparent")
         frame_botones.pack(fill="x", pady=(0, 18))
@@ -317,6 +334,8 @@ class ConversorApp(ctk.CTk):
         self.mostrar_resultado_destacado(str_orig, simb_orig, str_dest, simb_dest, ecuacion)
 
     def mostrar_resultado_destacado(self, str_orig: str, simb_orig: str, str_dest: str, simb_dest: str, ecuacion: str):
+        self.resultado_mostrado = ecuacion
+
         # Limpiar contenedor de resultado
         for hijo in self.contenedor_resultado.winfo_children():
             hijo.destroy()
@@ -351,6 +370,8 @@ class ConversorApp(ctk.CTk):
         lbl_ecuacion.pack(fill="x")
 
     def mostrar_placeholder_resultado(self):
+        self.resultado_mostrado = "—"
+
         for hijo in self.contenedor_resultado.winfo_children():
             hijo.destroy()
 
@@ -358,11 +379,31 @@ class ConversorApp(ctk.CTk):
 
         lbl_vacio = ctk.CTkLabel(
             self.contenedor_resultado,
-            text="Introduce un valor y pulsa «Convertir»",
-            font=("Segoe UI", 13),
+            text="—",
+            font=("Segoe UI", 28, "bold"),
             text_color=("gray50", "#94a3b8")
         )
         lbl_vacio.pack(expand=True)
+
+    # ---------------- ACCIÓN INTERCAMBIAR ----------------
+
+    def accion_intercambiar(self):
+        """
+        Intercambia las unidades de origen y destino:
+        - Conserva exactamente el texto escrito en Valor.
+        - Borra el resultado anterior (vuelve a '—').
+        - No convierte automáticamente.
+        """
+        origen_actual = self.var_origen.get()
+        destino_actual = self.var_destino.get()
+        nuevo_origen, nuevo_destino = intercambiar_unidades(origen_actual, destino_actual)
+
+        self.var_origen.set(nuevo_origen)
+        self.var_destino.set(nuevo_destino)
+
+        # Borra el resultado anterior y vuelve a '—'
+        self.mostrar_placeholder_resultado()
+        self.ocultar_error()
 
     # ---------------- ACCIÓN LIMPIAR ----------------
 
